@@ -6,6 +6,8 @@ const morgan = require('morgan')
 const helmet = require('helmet')
 const cors = require('cors')
 const { NODE_ENV } = require('./config')
+const foldersRouter = require('./folders/folders-router')
+const notesRouter = require('./notes/notes-router')
 
 const app = express()
 
@@ -29,6 +31,11 @@ app.use(function errorHandler(error, req, res, next) {
   }
   res.status(500).json(response)
 })
+
+
+app.use('/noteful-api/folders', foldersRouter)
+app.use('/noteful-api/notes', notesRouter)
+
 
 app.get('/', (req, res) => {
   res.send('Hello, world!')
