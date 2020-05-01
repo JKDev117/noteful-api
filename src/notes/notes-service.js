@@ -16,10 +16,13 @@ const NotesService = {
             .where({ id })
             .delete()
     },
-
-
-
-
+    getById(knex, id) {
+        return knex('noteful_notes')
+            .select('*')
+            .where('id', id)
+            .first()
+    },
 }
+
 
 module.exports = NotesService

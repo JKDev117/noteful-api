@@ -8,13 +8,17 @@ const FoldersService = {
             .into('noteful_folders')
             .returning('*')
             .then(rows => {
-                rows[0]
+                return rows[0]
             })
     },
-
-
- 
-    
+    getById(knex, id){
+        return knex
+            .from('noteful_folders')
+            .select('*')
+            .where('id', id)
+            .first()
+    },    
 }
+
 
 module.exports = FoldersService
