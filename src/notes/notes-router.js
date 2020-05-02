@@ -99,3 +99,16 @@ notesRouter
 
 
 module.exports = notesRouter
+
+
+/*
+Example Post Body Req
+    {
+        "id": 1,
+        "name": "Dogs",
+        "modified": "2020-04-27T04:45:18.887Z",
+        "folder_id": 1,
+        "content": "Here is some content"
+    }
+
+*/

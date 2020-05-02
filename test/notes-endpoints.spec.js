@@ -96,6 +96,7 @@ describe('Notes Endpoints', function() {
         })
 
         it('creates a note, responding with 201 and the new note', function() {
+            this.retries(3)
             const newNote = {
                 name: "Test Note #1",
                 folder_id: 1,
