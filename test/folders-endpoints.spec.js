@@ -71,8 +71,8 @@ describe('Folders Endpoints', function() {
     
     })//end describe 'GET /noteful-api/folders'
 
-     //describe 'POST /noteful-api/folders'
-     describe('POST /noteful-api/folders', () => {
+    //describe 'POST /noteful-api/folders'
+    describe('POST /noteful-api/folders', () => {
         
         it('creates a folder, responding with 201 and the new folder', function() {
             const newFolder = {
@@ -93,11 +93,46 @@ describe('Folders Endpoints', function() {
                         .expect(postRes.body)
                 )
         })
-
-        
-
-
-
     })//end describe 'POST /noteful-api/folders'   
 
+
+    //describe 'GET /noteful-api/folders/:folder_id'
+    describe('GET /noteful-api/folders/:folder_id', () => {
+        context('Given no folders', () => {
+            it('responds with 404', () => {
+                const folderId = 123456
+                return supertest(app)
+                    .get(`/noteful-api/folders/${folderId}`)
+                    .expect(404, {error: {message: `Folder doesn't exist.`}})
+            })
+        })//end context 'Given no articles'
+        
+        context('Given there are articles in the database', () => {
+            const testFolders = makeFolders()
+
+            beforeEach('insert folders', () => {
+                return db
+                    .into('noteful_folders')
+                    .insert(testFolders)
+            })
+
+            it('responds with 200 and the specified folder', () => {
+                const folderId = 2
+                const expectedFolder = testFolders[folderId - 1]
+                return supertest(app)
+                    .get(`/noteful-api/folders/${folderId}`)
+                    .expect(200, expectedFolder)
+            })
+        })//end context 'Given there are articles in the database'
+    })//end describe 'GET /noteful-api/folders/:folder_id'
+
+
+
+
+
+
+
 })//end describe 'Folders Endpoints'
+
+
+
