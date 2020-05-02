@@ -66,7 +66,6 @@ foldersRouter
                 })
             }
             res.folder = folder
-            console.log(res.folder)
             next()
         })
         .catch(next)
