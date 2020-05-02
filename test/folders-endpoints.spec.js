@@ -93,6 +93,36 @@ describe('Folders Endpoints', function() {
                         .expect(postRes.body)
                 )
         })
+
+
+        const requiredFields = ['name']
+
+        requiredFields.forEach(field => {
+            const newFolder = {
+                name: "Test new folder"
+            }
+
+            it(`responds with 400 and an error message when the ${field} is missing`, () => {
+               delete newFolder[field]
+
+               return supertest(app)
+                    .post('/noteful-api/folders')
+                    .send(newFolder)
+                    .expect(400, {
+                        error: {message: `Missing '${field}' in request body`}
+                    })
+            })
+        })
+
+        it('removes XSS attack content from response', () => {
+            return supertest(app)
+                .post('/noteful-api/folders')
+                .send(maliciousFolder)
+                .expect(201)
+                .expect(res => {
+                    expect(res.body.name).to.eql(expectedFolder.name)
+                })
+        })
     })//end describe 'POST /noteful-api/folders'   
 
 
@@ -125,10 +155,6 @@ describe('Folders Endpoints', function() {
             })
         })//end context 'Given there are articles in the database'
     })//end describe 'GET /noteful-api/folders/:folder_id'
-
-
-
-
 
 
 

@@ -53,6 +53,7 @@ foldersRouter
 
 foldersRouter
     .route('/:folder_id') //route('/:folder_id') is '/noteful-api/folders/:folder_id'
+    //ALL
     .all((req,res,next) => {
         FoldersService.getById(
             req.app.get('db'),
@@ -70,13 +71,10 @@ foldersRouter
         })
         .catch(next)
     })
+    //GET
     .get((req,res,next) => 
         res.json(serializeFolder(res.folder))
     )
-
-
-
-
 
 
 

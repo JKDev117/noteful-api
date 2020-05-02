@@ -17,7 +17,8 @@ const FoldersService = {
             .select('*')
             .where('id', id)
             .first()
-    },    
+    }
+      
 }
 
 
