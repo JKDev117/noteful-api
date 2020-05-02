@@ -71,11 +71,33 @@ describe('Folders Endpoints', function() {
     
     })//end describe 'GET /noteful-api/folders'
 
+     //describe 'POST /noteful-api/folders'
+     describe('POST /noteful-api/folders', () => {
+        
+        it('creates a folder, responding with 201 and the new folder', function() {
+            const newFolder = {
+                name: "New Folder"
+            }
+            console.log(newFolder)
+            return supertest(app)
+                .post('/noteful-api/folders')
+                .send(newFolder)
+                .expect(201)
+                .expect(res => {
+                    expect(res.body).to.have.property('id')
+                    expect(res.body.name).to.eql(newFolder.name)
+                })
+                .then(postRes => 
+                    supertest(app)
+                        .get(`/noteful-api/folders/${postRes.body.id}`)
+                        .expect(postRes.body)
+                )
+        })
+
+        
 
 
 
-
-
-
+    })//end describe 'POST /noteful-api/folders'   
 
 })//end describe 'Folders Endpoints'
