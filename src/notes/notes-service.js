@@ -21,7 +21,9 @@ const NotesService = {
             .select('*')
             .where('id', id)
             .first()
-    },
+    }
+
+    
 }
 
 

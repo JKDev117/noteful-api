@@ -5,6 +5,7 @@ const { makeNotes, makeMaliciousNote } = require('./notes.fixtures')
 const { maliciousNote, expectedNote } = makeMaliciousNote()
 const { makeFolders } = require('./folders.fixtures')
 
+
 describe('Notes Endpoints', function() {
 
     let db
@@ -153,7 +154,87 @@ describe('Notes Endpoints', function() {
     })//end describe 'POST /noteful-api/notes' 
 
 
+    //describe 'GET /noteful-api/notes/:note_id'
+    describe('GET /noteful-api/notes/:note_id', () => {
+        context('Given no notes', () => {
+            it('responds with 404', () => {
+                const noteId = 123456
+                return supertest(app)
+                    .get(`/noteful-api/notes/${noteId}`)
+                    .expect(404, {error: {message: `Note doesn't exist.`}})
+            })
+        })//end context 'Given no notes'
+        
+        context('Given there are notes in the database', () => {
+            const testNotes = makeNotes()
+            const testFolders = makeFolders()
 
+            beforeEach('insert folders before notes', () => {
+                return db
+                    .into('noteful_folders')
+                    .insert(testFolders)
+                    .then(() => {
+                        return db
+                            .into('noteful_notes')
+                            .insert(testNotes)
+                    })
+            })
+
+            it('responds with 200 and the specified note', () => {
+                const noteId = 2
+                const expectedNote = testNotes[noteId - 1]
+                return supertest(app)
+                    .get(`/noteful-api/notes/${noteId}`)
+                    .expect(200, expectedNote)
+            })
+        })//end context 'Given there are notes in the database'
+    })//end describe 'GET /noteful-api/notes/:note_id'
+
+
+    describe(`DELETE /noteful-api/notes/:note_id`, () => {
+        context('Given no notes', () => {
+            it(`responds with 404`, () => {
+                const noteId = 123456
+                return supertest(app)
+                    .delete(`/noteful-api/notes/${noteId}`)
+                    .expect(404, {error: {message: `Note doesn't exist.`}})
+            })
+        })
+        
+        
+        context('Given there are notes in the database', () => {
+            const testFolders = makeFolders()
+            const testNotes = makeNotes()
+    
+            beforeEach('insert folders before notes', () => {
+                return db
+                    .into('noteful_folders')
+                    .insert(testFolders)
+                    .then(() => {
+                        return db
+                            .into('noteful_notes')
+                            .insert(testNotes)
+                    })
+            })
+    
+            it('responds with 204 and removes the note', () => {
+                const idToRemove = 2
+                const expectedNotes = testNotes.filter(note => note.id !== idToRemove)
+                return supertest(app)
+                    .delete(`/noteful-api/notes/${idToRemove}`)
+                    .expect(204)
+                    .then(res => 
+                        supertest(app)
+                            .get(`/noteful-api/notes`)
+                            .expect(expectedNotes)
+                    )
+            })
+        }) //end context 'Given there are notes in the database'
+    })//end describe `DELETE /noteful-api/notes/:note_id
 
 
 })    
+
+
+
+

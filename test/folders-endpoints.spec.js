@@ -135,9 +135,9 @@ describe('Folders Endpoints', function() {
                     .get(`/noteful-api/folders/${folderId}`)
                     .expect(404, {error: {message: `Folder doesn't exist.`}})
             })
-        })//end context 'Given no articles'
+        })//end context 'Given no folders'
         
-        context('Given there are articles in the database', () => {
+        context('Given there are folders in the database', () => {
             const testFolders = makeFolders()
 
             beforeEach('insert folders', () => {
@@ -153,7 +153,7 @@ describe('Folders Endpoints', function() {
                     .get(`/noteful-api/folders/${folderId}`)
                     .expect(200, expectedFolder)
             })
-        })//end context 'Given there are articles in the database'
+        })//end context 'Given there are folders in the database'
     })//end describe 'GET /noteful-api/folders/:folder_id'
 
 
