@@ -8,6 +8,7 @@ const cors = require('cors')
 const { NODE_ENV } = require('./config')
 const foldersRouter = require('./folders/folders-router')
 const notesRouter = require('./notes/notes-router')
+const logger = require('./logger')
 
 const app = express()
 
@@ -33,6 +34,7 @@ app.use(function errorHandler(error, req, res, next) {
   if (NODE_ENV === 'production') {
     response = { error: { message: 'server error' } }
   } else {
+    logger.error(error.message)
     console.error(error)
     response = { message: error.message, error }
   }
