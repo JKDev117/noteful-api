@@ -13,7 +13,7 @@ const serializeFolder = folder => ({
 
 
 foldersRouter
-    .route('/') //route('/') is '/noteful-api/folders/'
+    .route('/noteful-api/folders')
     //GET
     .get((req,res,next) => {
         const knexInstance = req.app.get('db')
@@ -52,7 +52,7 @@ foldersRouter
     })
 
 foldersRouter
-    .route('/:folder_id') //route('/:folder_id') is '/noteful-api/folders/:folder_id'
+    .route('/noteful-api/folders/:folder_id')
     //ALL
     .all((req,res,next) => {
         FoldersService.getById(

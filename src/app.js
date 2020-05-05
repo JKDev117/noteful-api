@@ -33,8 +33,8 @@ app.use(function errorHandler(error, req, res, next) {
 })
 
 
-app.use('/noteful-api/folders', foldersRouter)
-app.use('/noteful-api/notes', notesRouter)
+app.use(foldersRouter)
+app.use(notesRouter)
 
 
 app.get('/', (req, res) => {
