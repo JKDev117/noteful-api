@@ -8,7 +8,8 @@ module.exports = {
         process.env.TEST_DATABASE_URL
          :
         //if false
-        process.env.DATABASE_URL 
+        process.env.DATABASE_URL,
+    "ssl": !!process.env.SSL, 
 }
 
 
