@@ -20,6 +20,13 @@ app.use(helmet()) //Make sure to place helmet before cors in the pipeline. 17.6
 app.use(cors())
 
 
+app.use(foldersRouter)
+app.use(notesRouter)
+
+
+app.get('/', (req, res) => {
+  res.send('Hello, world!')
+})
 
 app.use(function errorHandler(error, req, res, next) {
   let response
@@ -32,13 +39,5 @@ app.use(function errorHandler(error, req, res, next) {
   res.status(500).json(response)
 })
 
-
-app.use(foldersRouter)
-app.use(notesRouter)
-
-
-app.get('/', (req, res) => {
-  res.send('Hello, world!')
-})
 
 module.exports = app
